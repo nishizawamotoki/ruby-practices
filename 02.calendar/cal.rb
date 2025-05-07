@@ -49,14 +49,15 @@ index = cell_of_first_day
   index += 1
 end
 
-print "#{month}月 #{year}".center(21), "\n"
-print " 日 月 火 水 木 金 土\n"
+print " " * 6, "#{month}月 #{year}", " " * 9, "\n"
+print "日 月 火 水 木 金 土  \n"
 calender_cells.each do |day|
   if day.nil?
     print "   "
   elsif Date.new(year, month, day).cwday == 6
-    print "#{day}".rjust(3), "\n"
+    print "#{day}".rjust(2), "  \n"
   else
-    print "#{day}".rjust(3)
+    print "#{day}".rjust(2), " "
   end
 end
+print " " * 22, "\n" # cal コマンドと同じ出力になるように調整している

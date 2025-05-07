@@ -23,11 +23,11 @@ else
   month = params["m"].to_i
 end
 
-cwday_on_first_day = Date.new(year, month, 1).cwday
-last_day_of_month = Date.new(year, month, -1).day
+first_date = Date.new(year, month, 1)
+last_date = Date.new(year, month, -1)
 
 calender_cells = []
-case cwday_on_first_day
+case first_date.cwday
 when 1
   cell_of_first_day = 1
 when 2
@@ -44,7 +44,7 @@ when 7
   cell_of_first_day = 0
 end
 index = cell_of_first_day
-(1..last_day_of_month).each do |day|
+(1..last_date.day).each do |day|
   calender_cells[index] = day
   index += 1
 end

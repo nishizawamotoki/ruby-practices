@@ -26,7 +26,7 @@ end
 first_date = Date.new(year, month, 1)
 last_date = Date.new(year, month, -1)
 
-calender_cells = []
+calender_cells = Array.new(42)
 case first_date.cwday
 when 1
   cell_of_first_day = 1
@@ -51,13 +51,14 @@ end
 
 print " " * 6, "#{month}月 #{year}", " " * 9, "\n"
 print "日 月 火 水 木 金 土  \n"
-calender_cells.each do |day|
+calender_cells.each_with_index do |day, i|
   if day.nil?
     print "   "
-  elsif Date.new(year, month, day).cwday == 6
-    print "#{day}".rjust(2), "  \n"
   else
     print "#{day}".rjust(2), " "
   end
+  
+  if (i + 1) % 7 == 0
+    print  " \n"
+  end
 end
-print " " * 22, "\n" # cal コマンドと同じ出力になるように調整している

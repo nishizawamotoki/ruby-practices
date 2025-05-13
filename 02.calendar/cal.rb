@@ -25,8 +25,8 @@ index = first_date.wday
   index += 1
 end
 
-print " " * 6, "#{month}月 #{year}", " " * 9, "\n"
-print "日 月 火 水 木 金 土  \n"
+puts "      #{month}月 #{year}         "
+puts "日 月 火 水 木 金 土  "
 calender_cells.each_with_index do |date, i|
   if date.nil?
     print "   "
@@ -35,6 +35,6 @@ calender_cells.each_with_index do |date, i|
   end
   
   if (i + 1) % 7 == 0
-    print  " \n"
+    puts  " "
   end
 end

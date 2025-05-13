@@ -12,16 +12,8 @@ if !params["m"].nil? && !(1..12).include?(params["m"].to_i)
   exit
 end
 
-if params["y"].nil?
-  year = Date.today.year
-else
-  year = params["y"].to_i
-end
-if params["m"].nil?
-  month = Date.today.month
-else
-  month = params["m"].to_i
-end
+year = params["y"] ? params["y"].to_i : Date.today.year
+month = params["m"] ? params["m"].to_i : Date.today.month
 
 first_date = Date.new(year, month, 1)
 last_date = Date.new(year, month, -1)

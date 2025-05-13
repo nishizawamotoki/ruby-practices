@@ -20,18 +20,18 @@ last_date = Date.new(year, month, -1)
 
 calender_cells = Array.new(42)
 index = first_date.wday
-(1..last_date.day).each do |day|
-  calender_cells[index] = day
+(first_date..last_date).each do |date|
+  calender_cells[index] = date
   index += 1
 end
 
 print " " * 6, "#{month}月 #{year}", " " * 9, "\n"
 print "日 月 火 水 木 金 土  \n"
-calender_cells.each_with_index do |day, i|
-  if day.nil?
+calender_cells.each_with_index do |date, i|
+  if date.nil?
     print "   "
   else
-    print "#{day}".rjust(2), " "
+    print "#{date.day}".rjust(2), " "
   end
   
   if (i + 1) % 7 == 0

@@ -19,23 +19,7 @@ first_date = Date.new(year, month, 1)
 last_date = Date.new(year, month, -1)
 
 calender_cells = Array.new(42)
-case first_date.cwday
-when 1
-  cell_of_first_day = 1
-when 2
-  cell_of_first_day = 2
-when 3
-  cell_of_first_day = 3
-when 4
-  cell_of_first_day = 4
-when 5
-  cell_of_first_day = 5
-when 6
-  cell_of_first_day = 6
-when 7
-  cell_of_first_day = 0
-end
-index = cell_of_first_day
+index = first_date.wday
 (1..last_date.day).each do |day|
   calender_cells[index] = day
   index += 1

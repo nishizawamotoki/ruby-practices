@@ -21,7 +21,7 @@ calendar_cells = [*Array.new(first_date.wday), *first_date..last_date]
 
 puts "      #{month}月 #{year}         "
 puts "日 月 火 水 木 金 土  "
-calendar_cells.each_with_index do |date, i|
+calendar_cells.each do |date|
   print date&.day.to_s.rjust(2), " "
   
   if date&.saturday?

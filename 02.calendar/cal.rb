@@ -17,20 +17,14 @@ month = params["m"] ? params["m"].to_i : Date.today.month
 
 first_date = Date.new(year, month, 1)
 last_date = Date.new(year, month, -1)
-
-calendar_cells = Array.new(42)
-index = first_date.wday
-(first_date..last_date).each do |date|
-  calendar_cells[index] = date
-  index += 1
-end
+calendar_cells = [*Array.new(first_date.wday), *first_date..last_date]
 
 puts "      #{month}月 #{year}         "
 puts "日 月 火 水 木 金 土  "
 calendar_cells.each_with_index do |date, i|
   print date&.day.to_s.rjust(2), " "
   
-  if (i + 1) % 7 == 0
+  if date&.saturday?
     puts " "
   end
 end

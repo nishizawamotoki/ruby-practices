@@ -28,13 +28,9 @@ end
 puts "      #{month}月 #{year}         "
 puts "日 月 火 水 木 金 土  "
 calendar_cells.each_with_index do |date, i|
-  if date.nil?
-    print "   "
-  else
-    print "#{date.day}".rjust(2), " "
-  end
+  print date&.day.to_s.rjust(2), " "
   
   if (i + 1) % 7 == 0
-    puts  " "
+    puts " "
   end
 end

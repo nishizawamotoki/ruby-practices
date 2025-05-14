@@ -18,16 +18,16 @@ month = params["m"] ? params["m"].to_i : Date.today.month
 first_date = Date.new(year, month, 1)
 last_date = Date.new(year, month, -1)
 
-calender_cells = Array.new(42)
+calendar_cells = Array.new(42)
 index = first_date.wday
 (first_date..last_date).each do |date|
-  calender_cells[index] = date
+  calendar_cells[index] = date
   index += 1
 end
 
 puts "      #{month}月 #{year}         "
 puts "日 月 火 水 木 金 土  "
-calender_cells.each_with_index do |date, i|
+calendar_cells.each_with_index do |date, i|
   if date.nil?
     print "   "
   else

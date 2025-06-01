@@ -7,12 +7,7 @@ scores = score.split(',')
 frames = []
 tmp_frame = []
 scores.each do |shot|
-  tmp_frame <<
-    if shot == 'X'
-      10
-    else
-      shot.to_i
-    end
+  tmp_frame << (shot == 'X' ? 10 : shot.to_i)
 
   next if frames.length == 9
 

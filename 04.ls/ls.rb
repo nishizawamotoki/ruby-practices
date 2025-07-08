@@ -5,9 +5,7 @@ COLUMN_COUNT = 3
 MULTIPLES_FOR_COLUMN_WIDTH = 8 # 列幅の長さはこの定数の倍数になる
 
 def calculate_max_rows(filenames, column_count = COLUMN_COUNT)
-  quotient = filenames.length / column_count
-  remainder = filenames.length % column_count
-  remainder.positive? ? quotient + 1 : quotient
+  filenames.length.ceildiv(column_count)
 end
 
 def calculate_col_width(filenames, multiples = MULTIPLES_FOR_COLUMN_WIDTH)

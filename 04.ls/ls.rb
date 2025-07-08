@@ -14,6 +14,8 @@ def calculate_col_width(filenames, multiples = MULTIPLES_FOR_COLUMN_WIDTH)
 end
 
 filenames = Dir.glob('*')
+exit if filenames.empty?
+
 max_row = calculate_max_rows(filenames)
 col_width = calculate_col_width(filenames)
 

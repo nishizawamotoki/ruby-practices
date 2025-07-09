@@ -20,14 +20,9 @@ max_row = calculate_max_rows(filenames)
 col_width = calculate_col_width(filenames)
 
 output_rows = Array.new(max_row) { '' }
-row_index = 0
-filenames.each do |filename|
+filenames.each_with_index do |filename, filename_index|
+  row_index = filename_index % max_row
   output_rows[row_index] = output_rows[row_index] + filename.ljust(col_width)
-  if row_index == (max_row - 1)
-    row_index = 0
-  else
-    row_index += 1
-  end
 end
 
 puts output_rows.join("\n")

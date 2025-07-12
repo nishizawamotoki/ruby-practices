@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require 'optparse'
+
 COLUMN_COUNT = 3
 MULTIPLES_FOR_COLUMN_WIDTH = 8 # 列幅の長さはこの定数の倍数になる
 
@@ -18,7 +20,14 @@ def generate_output_rows(filenames, max_row, col_width)
   output_rows
 end
 
-filenames = Dir.glob('*')
+params = ARGV.getopts('a')
+
+filenames =
+  if params['a']
+    Dir.glob('*', File::FNM_DOTMATCH)
+  else
+    Dir.glob('*')
+  end
 exit if filenames.empty?
 
 max_row = filenames.length.ceildiv(COLUMN_COUNT)

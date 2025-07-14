@@ -22,12 +22,8 @@ end
 
 params = ARGV.getopts('a')
 
-filenames =
-  if params['a']
-    Dir.glob('*', File::FNM_DOTMATCH)
-  else
-    Dir.glob('*')
-  end
+flags = params['a'] ? File::FNM_DOTMATCH : 0
+filenames = Dir.glob('*', flags)
 exit if filenames.empty?
 
 max_row = filenames.length.ceildiv(COLUMN_COUNT)

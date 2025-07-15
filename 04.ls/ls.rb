@@ -20,10 +20,9 @@ def generate_output_rows(filenames, max_row, col_width)
   output_rows
 end
 
-params = ARGV.getopts('a')
+params = ARGV.getopts('r')
 
-flags = params['a'] ? File::FNM_DOTMATCH : 0
-filenames = Dir.glob('*', flags)
+filenames = params['r'] ? Dir.glob('*').reverse : Dir.glob('*')
 exit if filenames.empty?
 
 max_row = filenames.length.ceildiv(COLUMN_COUNT)

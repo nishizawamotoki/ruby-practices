@@ -105,8 +105,8 @@ puts "total #{total_blocks}"
 file_details.each do |detail|
   print "#{detail[:file_mode]} ",
         "#{detail[:links].rjust(max_width[:links])} ",
-        "#{detail[:owner_name].rjust(max_width[:owner_name])}  ", # OSのlsコマンドとフォーマットを合わせるために2スペース出力している
-        "#{detail[:group_name].rjust(max_width[:group_name])}  ", # OSのlsコマンドとフォーマットを合わせるために2スペース出力している
+        "#{detail[:owner_name].ljust(max_width[:owner_name])}  ", # OSのlsコマンドとフォーマットを合わせるために2スペース出力している
+        "#{detail[:group_name].ljust(max_width[:group_name])}  ", # OSのlsコマンドとフォーマットを合わせるために2スペース出力している
         "#{detail[:bytes].rjust(max_width[:bytes])} ",
         "#{detail[:last_modified_time]} ",
         "#{detail[:pathname]}\n"

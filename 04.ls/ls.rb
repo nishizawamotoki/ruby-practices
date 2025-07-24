@@ -81,25 +81,26 @@ if !params['l']
 end
 
 file_details = filenames.map do |filename|
-  detail = { file_mode: '', links: '', owner_name: '', group_name: '', bytes: '', last_modified_time: '', pathname: '', blocks: 0 }
   fs = File.lstat(filename)
-  detail[:file_mode] = convert_to_symbolic_file_mode(fs)
-  detail[:links] = fs.nlink.to_s
-  detail[:owner_name] = Etc.getpwuid(fs.uid).name
-  detail[:group_name] = Etc.getgrgid(fs.gid).name
-  detail[:bytes] = fs.size.to_s
-  detail[:last_modified_time] = fs.mtime.strftime('%_m %d %H:%M')
-  detail[:pathname] = fs.symlink? ? "#{filename} -> #{File.readlink(filename)}" : filename
-  detail[:blocks] = fs.blocks
-  detail
+  {
+    file_mode: convert_to_symbolic_file_mode(fs),
+    links: fs.nlink.to_s,
+    owner_name: Etc.getpwuid(fs.uid).name,
+    group_name: Etc.getgrgid(fs.gid).name,
+    bytes: fs.size.to_s,
+    last_modified_time: fs.mtime.strftime('%_m %d %H:%M'),
+    pathname: fs.symlink? ? "#{filename} -> #{File.readlink(filename)}" : filename,
+    blocks: fs.blocks
+  }
 end
 total_blocks = file_details.sum { |detail| detail[:blocks] }
 
-max_width = { links: 0, owner_name: 0, group_name: 0, bytes: 0 }
-max_width[:links] = calculate_max_width(file_details, :links)
-max_width[:owner_name] = calculate_max_width(file_details, :owner_name)
-max_width[:group_name] = calculate_max_width(file_details, :group_name)
-max_width[:bytes] = calculate_max_width(file_details, :bytes)
+max_width = {
+  links: calculate_max_width(file_details, :links),
+  owner_name: calculate_max_width(file_details, :owner_name),
+  group_name: calculate_max_width(file_details, :group_name),
+  bytes: calculate_max_width(file_details, :bytes)
+}
 
 puts "total #{total_blocks}"
 file_details.each do |detail|

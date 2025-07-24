@@ -7,6 +7,17 @@ require 'etc'
 COLUMN_COUNT = 3
 MULTIPLES_FOR_COLUMN_WIDTH = 8 # 列幅の長さはこの定数の倍数になる
 
+MAPPING_FILETYPE_TO_SYMBOL = {
+  'file' => '-',
+  'directory' => 'd',
+  'characterSpecial' => 'c',
+  'blockSpecial' => 'b',
+  'fifo' => 'p',
+  'link' => 'l',
+  'socket' => 's',
+  'unknown' => 'w'
+}.freeze
+
 # File::Stat.mode の数値を、シンボルを用いたパーミッションに変換するためのビット値
 S_IRWXU = 0o000700
 S_IRUSR = 0o000400
@@ -37,19 +48,6 @@ def generate_output_rows(filenames, max_row, col_width)
   output_rows
 end
 
-def convert_to_symbolic_file_type(ftype)
-  {
-    'file' => '-',
-    'directory' => 'd',
-    'characterSpecial' => 'c',
-    'blockSpecial' => 'b',
-    'fifo' => 'p',
-    'link' => 'l',
-    'socket' => 's',
-    'unknown' => 'w'
-  }[ftype]
-end
-
 def convert_to_symbolic_permission(mode, permission_bit_mask, read_permission_bit, write_permission_bit, execute_permission_bit)
   symbolic_permission = '---'
   permission_bit = mode & permission_bit_mask
@@ -60,7 +58,7 @@ def convert_to_symbolic_permission(mode, permission_bit_mask, read_permission_bi
 end
 
 def convert_to_symbolic_file_mode(file_stat)
-  file_type = convert_to_symbolic_file_type(file_stat.ftype)
+  file_type = MAPPING_FILETYPE_TO_SYMBOL[file_stat.ftype]
   user_permission = convert_to_symbolic_permission(file_stat.mode, S_IRWXU, S_IRUSR, S_IWUSR, S_IXUSR)
   group_permission = convert_to_symbolic_permission(file_stat.mode, S_IRWXG, S_IRGRP, S_IWGRP, S_IXGRP)
   other_permission = convert_to_symbolic_permission(file_stat.mode, S_IRWXO, S_IROTH, S_IWOTH, S_IXOTH)

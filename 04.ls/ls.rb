@@ -71,7 +71,10 @@ end
 
 params = ARGV.getopts('l')
 filenames = Dir.glob('*')
-exit if filenames.empty?
+if filenames.empty?
+  params['l'] && (puts 'total 0')
+  exit
+end
 
 if !params['l']
   max_row = filenames.length.ceildiv(COLUMN_COUNT)

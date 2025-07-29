@@ -51,9 +51,9 @@ end
 def convert_to_symbolic_permission(mode, permission_bit_mask, read_permission_bit, write_permission_bit, execute_permission_bit)
   symbolic_permission = '---'
   permission_bit = mode & permission_bit_mask
-  (permission_bit & read_permission_bit == read_permission_bit) && symbolic_permission = "r#{symbolic_permission[1..]}"
-  (permission_bit & write_permission_bit == write_permission_bit) && symbolic_permission = "#{symbolic_permission[0]}w#{symbolic_permission[2]}"
-  (permission_bit & execute_permission_bit == execute_permission_bit) && symbolic_permission = "#{symbolic_permission[..1]}x"
+  symbolic_permission = "r#{symbolic_permission[1..]}" if permission_bit & read_permission_bit == read_permission_bit
+  symbolic_permission = "#{symbolic_permission[0]}w#{symbolic_permission[2]}" if permission_bit & write_permission_bit == write_permission_bit
+  symbolic_permission = "#{symbolic_permission[..1]}x" if permission_bit & execute_permission_bit == execute_permission_bit
   symbolic_permission
 end
 
@@ -72,7 +72,7 @@ end
 params = ARGV.getopts('l')
 filenames = Dir.glob('*')
 if filenames.empty?
-  params['l'] && (puts 'total 0')
+  puts 'total 0' if params['l']
   exit
 end
 

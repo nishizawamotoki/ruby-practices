@@ -69,8 +69,10 @@ def calculate_max_width(file_details, attr)
   file_details.max_by { |detail| detail[attr].length }[attr].length
 end
 
-params = ARGV.getopts('l')
-filenames = Dir.glob('*')
+params = ARGV.getopts('arl')
+
+flags = params['a'] ? File::FNM_DOTMATCH : 0
+filenames = params['r'] ? Dir.glob('*', flags).reverse : Dir.glob('*', flags)
 if filenames.empty?
   puts 'total 0' if params['l']
   exit

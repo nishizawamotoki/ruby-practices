@@ -3,7 +3,7 @@
 
 require 'optparse'
 
-COLUMN_WIDTH = 8
+COLUMN_WIDTH = 7
 
 def main
   params = ARGV.getopts('lwc')
@@ -53,9 +53,9 @@ end
 
 def format_output_row(statistic, display_settings, is_total: false)
   row = ''
-  row += display_settings[:lines] ? statistic[:lines].to_s.rjust(COLUMN_WIDTH) : ''
-  row += display_settings[:words] ? statistic[:words].to_s.rjust(COLUMN_WIDTH) : ''
-  row += display_settings[:bytes] ? statistic[:bytes].to_s.rjust(COLUMN_WIDTH) : ''
+  row += " #{statistic[:lines].to_s.rjust(COLUMN_WIDTH)}" if display_settings[:lines]
+  row += " #{statistic[:words].to_s.rjust(COLUMN_WIDTH)}" if display_settings[:words]
+  row += " #{statistic[:bytes].to_s.rjust(COLUMN_WIDTH)}" if display_settings[:bytes]
   row +=
     if is_total
       ' total'

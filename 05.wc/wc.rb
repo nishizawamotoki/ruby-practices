@@ -45,7 +45,7 @@ end
 def collect_statistic(text, file_path = nil)
   {
     lines: text.count("\n"),
-    words: text.split(/\s+/).size,
+    words: text.strip.split(/\s+/).size,
     bytes: text.bytesize,
     file_path: file_path
   }

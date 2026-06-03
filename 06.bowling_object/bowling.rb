@@ -3,6 +3,6 @@
 
 require_relative 'game'
 
-score = ARGV[0]
-game = Game.new(score)
+marks = ARGV[0]
+game = Game.new(marks)
 pp game.score

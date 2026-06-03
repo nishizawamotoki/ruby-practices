@@ -1,22 +1,9 @@
 require_relative 'frame'
 
 class Game
-  def initialize(score)
-    scores = score.split(',').map { |s| s == 'X' ? 10 : s.to_i }
-    
+  def initialize(marks)
     @frames = []
-    frame = Frame.new
-    
-    scores.each do |pins|
-      frame.add(pins)
-      next if @frames.length == 9
-
-      if frame.strike? || frame.shot_count == 2
-        @frames << frame
-        frame = Frame.new
-      end
-    end
-    @frames << frame # 最終フレーム分
+    build_frames(marks)
   end
 
   def score
@@ -38,5 +25,23 @@ class Game
         end
     end
     result
+  end
+
+  private
+
+  def build_frames(marks)
+    pins_list = marks.split(',').map { |s| s == 'X' ? 10 : s.to_i }
+
+    frame = Frame.new
+    pins_list.each do |pins|
+      frame.add(pins)
+
+      next if @frames.size == 9
+      if frame.strike? || frame.shot_count == 2
+        @frames << frame
+        frame = Frame.new
+      end
+    end
+    @frames << frame # 最終フレーム分
   end
 end

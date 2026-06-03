@@ -7,24 +7,11 @@ class Game
   end
 
   def score
-    result = @frames.each_with_index.sum do |frame, i|
+    @frames.each_with_index.sum do |frame, i|
       next_frame = @frames[i + 1]
       after_next_frame = @frames[i + 2]
-
-      next frame.sum if i == 9
-
-      frame.sum +
-        if frame.strike? && next_frame.strike?
-          10 + (i == 8 ? next_frame.second_shot : after_next_frame.first_shot) # 9フレーム目のみ10フレーム目の2投目を加算する
-        elsif frame.strike?
-          next_frame.first_shot + next_frame.second_shot # next_frame.sum は9フレーム目がストライクのときにおかしくなるので使えない
-        elsif frame.spare?
-          next_frame.first_shot
-        else
-          0
-        end
+      last_frame?(i) ? frame.sum : frame.point(next_frame, after_next_frame)
     end
-    result
   end
 
   private
@@ -43,5 +30,9 @@ class Game
       end
     end
     @frames << frame # 最終フレーム分
+  end
+
+  def last_frame?(index)
+    index == 9
   end
 end

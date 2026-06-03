@@ -5,4 +5,4 @@ require_relative 'game'
 
 marks = ARGV[0]
 game = Game.new(marks)
-pp game.score
+puts game.score

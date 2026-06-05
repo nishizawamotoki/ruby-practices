@@ -11,7 +11,7 @@ class Frame
   end
 
   def shot_count
-    @shots.length
+    @shots.size
   end
 
   def first_shot
@@ -27,7 +27,11 @@ class Frame
   end
   
   def sum
-    @shots.sum { |shot| shot.point }
+    @shots.sum(&:point)
+  end
+
+  def finished?
+    strike? || shot_count == 2
   end
   
   def point(next_frame, after_next_frame)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'shot'
 
 class Frame
@@ -17,15 +19,15 @@ class Frame
   def first_shot
     @shots[0]
   end
-  
+
   def second_shot
     @shots[1]
   end
-  
+
   def strike?
     first_shot.point == 10
   end
-  
+
   def sum
     @shots.sum(&:point)
   end
@@ -33,20 +35,20 @@ class Frame
   def finished?
     strike? || shot_count == 2
   end
-  
+
   def point(next_frame, after_next_frame)
     sum +
-    if strike?
-      next_frame.first_shot.point + (next_frame.second_shot&.point || after_next_frame.first_shot.point)
-    elsif spare?
-      next_frame.first_shot.point
-    else
-      0
-    end
+      if strike?
+        next_frame.first_shot.point + (next_frame.second_shot&.point || after_next_frame.first_shot.point)
+      elsif spare?
+        next_frame.first_shot.point
+      else
+        0
+      end
   end
-  
+
   private
-  
+
   def spare?
     !strike? && sum == 10
   end

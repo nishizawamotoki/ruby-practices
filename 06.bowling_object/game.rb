@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'frame'
-require_relative 'last_frame'
 
 class Game
   def initialize(marks)
@@ -13,7 +12,7 @@ class Game
     @frames.each_with_index.sum do |frame, i|
       next_frame = @frames[i + 1]
       after_next_frame = @frames[i + 2]
-      frame.point(next_frame, after_next_frame)
+      i == 9 ? frame.sum : frame.point(next_frame, after_next_frame)
     end
   end
 
@@ -26,18 +25,12 @@ class Game
     pins_list.each do |pins|
       frame.add(pins)
 
-      if frame.finished?
+      next if @frames.size == 9
+      if frame.strike? || frame.shot_count == 2
         @frames << frame
-        frame = next_frame
+        frame = Frame.new
       end
     end
-  end
-
-  def next_frame
-    if @frames.size == 9
-      LastFrame.new
-    elsif @frames.size < 9
-      Frame.new
-    end
+    @frames << frame # 最終フレーム分
   end
 end

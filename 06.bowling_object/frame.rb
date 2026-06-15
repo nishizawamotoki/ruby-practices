@@ -20,8 +20,16 @@ class Frame
     @shots[1]
   end
 
-  def finished?
-    strike? || shot_count == 2
+  def sum
+    @shots.sum(&:point)
+  end
+
+  def shot_count
+    @shots.size
+  end
+
+  def strike?
+    first_shot.point == 10
   end
 
   def point(next_frame, after_next_frame)
@@ -36,18 +44,6 @@ class Frame
   end
 
   private
-
-  def shot_count
-    @shots.size
-  end
-
-  def sum
-    @shots.sum(&:point)
-  end
-
-  def strike?
-    first_shot.point == 10
-  end
 
   def spare?
     !strike? && sum == 10

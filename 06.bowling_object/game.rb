@@ -3,6 +3,8 @@
 require_relative 'frame'
 
 class Game
+  STRIKE_POINT = 10
+
   def initialize(marks)
     @frames = build_frames(marks)
   end

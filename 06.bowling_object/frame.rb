@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'game'
 require_relative 'shot'
 
 class Frame
@@ -29,7 +30,7 @@ class Frame
   private
 
   def strike?
-    first_shot.point == 10
+    first_shot.point == Game::STRIKE_POINT
   end
 
   def spare?

@@ -19,11 +19,9 @@ class Game
   private
 
   def build_frames(marks)
-    pins_list = marks.split(',').map { |s| s == 'X' ? 10 : s.to_i }
-
     frame = Frame.new
-    pins_list.each do |pins|
-      frame.add(pins)
+    marks.split(',').each do |mark|
+      frame.add(mark)
 
       next if @frames.size == 9
       if frame.strike? || frame.shot_count == 2

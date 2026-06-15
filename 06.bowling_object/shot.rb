@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class Shot
-  def initialize(pins)
-    @pins = pins
+  def initialize(mark)
+    @mark = mark
   end
 
   def point
-    @pins
+    @mark == 'X' ? 10 : @mark.to_i
   end
 end

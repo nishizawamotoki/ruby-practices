@@ -4,8 +4,7 @@ require_relative 'frame'
 
 class Game
   def initialize(marks)
-    @frames = []
-    build_frames(marks)
+    @frames = build_frames(marks)
   end
 
   def score
@@ -19,16 +18,21 @@ class Game
   private
 
   def build_frames(marks)
-    frame = Frame.new
+    frames = []
+    frame = []
     marks.split(',').each do |mark|
-      frame.add(mark)
+      frame << mark
+      next if frames.size == 9
 
-      next if @frames.size == 9
-      if frame.strike? || frame.shot_count == 2
-        @frames << frame
-        frame = Frame.new
+      if mark == 'X' || frame.size == 2
+        frames << frame.dup
+        frame.clear
       end
     end
-    @frames << frame # 最終フレーム分
+    frames << frame # 最終フレーム分
+
+    frames.map do |f|
+      Frame.new(*f)
+    end
   end
 end

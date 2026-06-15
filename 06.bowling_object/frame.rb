@@ -3,39 +3,22 @@
 require_relative 'shot'
 
 class Frame
-  def initialize
-    @shots = []
-  end
+  attr_reader :first_shot, :second_shot
 
-  def add(mark)
-    shot = Shot.new(mark)
-    @shots << shot
-  end
-
-  def first_shot
-    @shots[0]
-  end
-
-  def second_shot
-    @shots[1]
+  def initialize(first_mark, second_mark = nil, third_mark = nil)
+    @first_shot = Shot.new(first_mark)
+    @second_shot = Shot.new(second_mark)
+    @third_shot = Shot.new(third_mark)
   end
 
   def sum
-    @shots.sum(&:point)
-  end
-
-  def shot_count
-    @shots.size
-  end
-
-  def strike?
-    first_shot.point == 10
+    [@first_shot, @second_shot, @third_shot].sum(&:point)
   end
 
   def point(next_frame, after_next_frame)
     sum +
       if strike?
-        next_frame.first_shot.point + (next_frame.second_shot&.point || after_next_frame.first_shot.point)
+        next_frame.first_shot.point + (next_frame.second_shot.mark? ? next_frame.second_shot.point : after_next_frame.first_shot.point)
       elsif spare?
         next_frame.first_shot.point
       else
@@ -44,6 +27,10 @@ class Frame
   end
 
   private
+
+  def strike?
+    first_shot.point == 10
+  end
 
   def spare?
     !strike? && sum == 10

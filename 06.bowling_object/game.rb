@@ -3,7 +3,7 @@
 require_relative 'frame'
 
 class Game
-  STRIKE_POINT = 10
+  PINS_PER_FRAME = 10
 
   def initialize(marks)
     @frames = build_frames(marks)
@@ -13,7 +13,7 @@ class Game
     @frames.each_with_index.sum do |frame, i|
       next_frame = @frames[i + 1]
       after_next_frame = @frames[i + 2]
-      i == 9 ? frame.sum : frame.point(next_frame, after_next_frame)
+      i == 9 ? frame.total_pins : frame.point(next_frame, after_next_frame)
     end
   end
 

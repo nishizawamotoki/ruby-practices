@@ -12,16 +12,16 @@ class Frame
     @third_shot = Shot.new(third_mark)
   end
 
-  def sum
-    [@first_shot, @second_shot, @third_shot].sum(&:point)
+  def total_pins
+    [@first_shot, @second_shot, @third_shot].sum(&:pins)
   end
 
   def point(next_frame, after_next_frame)
-    sum +
+    total_pins +
       if strike?
-        next_frame.first_shot.point + (next_frame.second_shot.mark? ? next_frame.second_shot.point : after_next_frame.first_shot.point)
+        next_frame.first_shot.pins + (next_frame.second_shot.mark? ? next_frame.second_shot.pins : after_next_frame.first_shot.pins)
       elsif spare?
-        next_frame.first_shot.point
+        next_frame.first_shot.pins
       else
         0
       end
@@ -30,10 +30,10 @@ class Frame
   private
 
   def strike?
-    first_shot.point == Game::STRIKE_POINT
+    first_shot.pins == Game::PINS_PER_FRAME
   end
 
   def spare?
-    !strike? && sum == 10
+    !strike? && total_pins == Game::PINS_PER_FRAME
   end
 end

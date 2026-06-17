@@ -11,7 +11,7 @@ class Shot
     !!@mark
   end
 
-  def point
-    @mark == 'X' ? Game::STRIKE_POINT : @mark.to_i
+  def pins
+    @mark == 'X' ? Game::PINS_PER_FRAME : @mark.to_i
   end
 end

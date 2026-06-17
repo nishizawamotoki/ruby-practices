@@ -7,10 +7,6 @@ class Shot
     @mark = mark
   end
 
-  def mark?
-    !!@mark
-  end
-
   def pins
     @mark == 'X' ? Game::PINS_PER_FRAME : @mark.to_i
   end

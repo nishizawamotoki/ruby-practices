@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'game'
 require_relative 'shot'
 
 class Frame
@@ -30,10 +29,10 @@ class Frame
   private
 
   def strike?
-    first_shot.pins == Game::PINS_PER_FRAME
+    first_shot.pins == Shot::PINS_PER_FRAME
   end
 
   def spare?
-    !strike? && total_pins == Game::PINS_PER_FRAME
+    !strike? && total_pins == Shot::PINS_PER_FRAME
   end
 end

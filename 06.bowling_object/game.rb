@@ -3,8 +3,6 @@
 require_relative 'frame'
 
 class Game
-  PINS_PER_FRAME = 10
-
   def initialize(marks)
     @frames = build_frames(marks)
   end

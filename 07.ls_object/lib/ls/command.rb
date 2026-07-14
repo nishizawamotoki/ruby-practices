@@ -36,9 +36,9 @@ module Ls
       header = "total #{@list.total_blocks}\n"
       detail = @list.formatted_files.reduce('') do |result, file|
         row = [
-          "#{file.file_mode} ",
+          "#{file.file_mode}  ", # OSのlsコマンドとフォーマットを合わせるために2スペース出力している
           "#{file.links.rjust(@list.max_links_length)} ",
-          "#{file.owner.ljust(@list.max_owner_length)}  ", # OSのlsコマンドとフォーマットを合わせるために2スペース出力している
+          "#{file.owner.ljust(@list.max_owner_length)}  ", # 同上
           "#{file.group.ljust(@list.max_group_length)}  ", # 同上
           "#{file.bytes.rjust(@list.max_bytes_length)} ",
           "#{file.last_modified_time} ",

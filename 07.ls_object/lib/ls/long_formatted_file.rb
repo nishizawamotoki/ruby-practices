@@ -12,7 +12,7 @@ module Ls
       'fifo' => 'p',
       'link' => 'l',
       'socket' => 's',
-      'unknown' => 'w'
+      'unknown' => '?'
     }.freeze
 
     # File::Stat.mode の数値を、シンボルを用いたパーミッションに変換するためのビット値

@@ -3,9 +3,8 @@
 require 'minitest/autorun'
 require 'pathname'
 require_relative '../lib/ls/command'
-require_relative '../lib/ls/formatted_file_list'
-require_relative '../lib/ls/long_formatted_file'
-require_relative '../lib/ls/short_formatted_file'
+require_relative '../lib/ls/file_metadata_list'
+require_relative '../lib/ls/long_formatter'
 require_relative '../lib/ls/file_metadata'
 
 class LsEmptyDirTest < Minitest::Test

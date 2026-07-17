@@ -6,7 +6,7 @@ module Ls
     MULTIPLES_FOR_DISPLAY_WIDTH = 8
 
     def initialize(pathname, dot_match: false, reverse: false, long: false)
-      @list = FormattedFileList.new(pathname, dot_match:, reverse:, long:)
+      @list = FileMetadataList.new(pathname, dot_match:, reverse:)
       @long = long
     end
 
@@ -19,10 +19,11 @@ module Ls
     def short_layout
       return '' if @list.empty?
 
-      display_width = MULTIPLES_FOR_DISPLAY_WIDTH * (@list.max_name_length.div(MULTIPLES_FOR_DISPLAY_WIDTH) + 1)
-      to_rectangular_matrix(@list.formatted_files, @list.size.ceildiv(COLUMN_COUNT)).transpose.reduce('') do |result, file_list|
-        row = file_list.reduce('') do |result, file|
-          result + (file&.name&.ljust(display_width) || '')
+      max_basename_length = @list.file_metadata_list.map { |f| f.basename.length }.max
+      display_width = MULTIPLES_FOR_DISPLAY_WIDTH * (max_basename_length.div(MULTIPLES_FOR_DISPLAY_WIDTH) + 1)
+      to_rectangular_matrix(@list.file_metadata_list, @list.size.ceildiv(COLUMN_COUNT)).transpose.reduce('') do |result, file_metadata_list|
+        row = file_metadata_list.reduce('') do |result, file_metadata|
+          result + (file_metadata&.basename&.ljust(display_width) || '')
         end
         "#{result}#{row}\n"
       end
@@ -33,17 +34,16 @@ module Ls
     end
 
     def long_layout
+      max_lengths = {
+        links: LongFormatter.max_length(:links, @list.file_metadata_list),
+        owner: LongFormatter.max_length(:owner, @list.file_metadata_list),
+        group: LongFormatter.max_length(:group, @list.file_metadata_list),
+        bytes: LongFormatter.max_length(:bytes, @list.file_metadata_list)
+      }
+
       header = "total #{@list.total_blocks}\n"
-      detail = @list.formatted_files.reduce('') do |result, file|
-        row = [
-          "#{file.file_mode}  ", # OSのlsコマンドとフォーマットを合わせるために2スペース出力している
-          "#{file.links.rjust(@list.max_links_length)} ",
-          "#{file.owner.ljust(@list.max_owner_length)}  ", # 同上
-          "#{file.group.ljust(@list.max_group_length)}  ", # 同上
-          "#{file.bytes.rjust(@list.max_bytes_length)} ",
-          "#{file.last_modified_time} ",
-          file.pathname
-        ].join
+      detail = @list.file_metadata_list.reduce('') do |result, file_metadata|
+        row = LongFormatter.new(file_metadata).format(max_lengths)
         "#{result}#{row}\n"
       end
       header + detail

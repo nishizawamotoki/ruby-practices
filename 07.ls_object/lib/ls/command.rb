@@ -34,16 +34,17 @@ module Ls
     end
 
     def long_layout
+      formatters = @list.file_metadata_list.map { |file_metadata| LongFormatter.new(file_metadata) }
       max_lengths = {
-        links: LongFormatter.max_length(:links, @list.file_metadata_list),
-        owner: LongFormatter.max_length(:owner, @list.file_metadata_list),
-        group: LongFormatter.max_length(:group, @list.file_metadata_list),
-        bytes: LongFormatter.max_length(:bytes, @list.file_metadata_list)
+        links: formatters.map { |formatter| formatter.links.length }.max,
+        owner: formatters.map { |formatter| formatter.owner.length }.max,
+        group: formatters.map { |formatter| formatter.group.length }.max,
+        bytes: formatters.map { |formatter| formatter.bytes.length }.max
       }
 
       header = "total #{@list.total_blocks}\n"
-      detail = @list.file_metadata_list.reduce('') do |result, file_metadata|
-        row = LongFormatter.new(file_metadata).format(max_lengths)
+      detail = formatters.reduce('') do |result, formatter|
+        row = formatter.format(max_lengths)
         "#{result}#{row}\n"
       end
       header + detail

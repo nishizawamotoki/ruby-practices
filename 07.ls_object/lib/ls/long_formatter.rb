@@ -50,11 +50,5 @@ module Ls
     def blocks
       @file_metadata.blocks
     end
-
-    def self.max_length(attr, file_metadata_list)
-      file_metadata_list.map do |file_metadata|
-        new(file_metadata).public_send(attr).length
-      end.max
-    end
   end
 end

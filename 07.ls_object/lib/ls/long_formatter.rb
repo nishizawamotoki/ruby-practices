@@ -8,7 +8,7 @@ module Ls
 
     def format(max_lengths)
       [
-        "#{file_mode}  ", # OSのlsコマンドとフォーマットを合わせるために2スペース出力している
+        "#{@file_metadata.file_mode}  ", # OSのlsコマンドとフォーマットを合わせるために2スペース出力している
         "#{links.rjust(max_lengths[:links])} ",
         "#{owner.ljust(max_lengths[:owner])}  ", # 同上
         "#{group.ljust(max_lengths[:group])}  ", # 同上
@@ -18,8 +18,8 @@ module Ls
       ].join
     end
 
-    def file_mode
-      @file_metadata.file_mode
+    def links
+      @file_metadata.nlink.to_s
     end
 
     def owner
@@ -30,13 +30,11 @@ module Ls
       @file_metadata.group
     end
 
-    def links
-      @file_metadata.nlink.to_s
-    end
-
     def bytes
       @file_metadata.bytesize.to_s
     end
+
+    private
 
     def last_modified_time
       @file_metadata.mtime.strftime('%_m月 %e %H:%M')
@@ -45,10 +43,6 @@ module Ls
     def pathname
       basename = @file_metadata.basename
       @file_metadata.symlink? ? "#{basename} -> #{@file_metadata.readlink}" : basename
-    end
-
-    def blocks
-      @file_metadata.blocks
     end
   end
 end
